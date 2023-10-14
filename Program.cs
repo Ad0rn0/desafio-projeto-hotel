@@ -2,22 +2,41 @@
 
 List<Pessoa> hospedes = [];
 
-Suite solo = new("Solo", 1, 40M);
-Suite casal = new("Casal", 2, 80M);
-Suite familia = new("Familia", 5, 200M);
+Suite solo = new("solo", 1, 40M);
+Suite casal = new("casal", 2, 80M);
+Suite familia = new("familia", 5, 200M);
 
 Reserva reserva = new();
-reserva.CadastrarHospedes(hospedes);
 
+Console.WriteLine($"Qual de nossas suítes você vai querer?");
+Console.WriteLine($"- {solo.TipoSuite.ToUpper()}\n- {casal.TipoSuite.ToUpper()}\n- {familia.TipoSuite.ToUpper()}");
+string suiteEscolhida = Console.ReadLine().ToLower();
+if (!suiteEscolhida.Contains("solo#casal#familia"))
+{
+    throw new Exception(suiteEscolhida + " é uma informação inválida.");
+} 
+
+switch (suiteEscolhida)
+{
+    case "solo":
+        reserva.CadastrarSuite(solo);
+        break;
+    case "casal":
+        reserva.CadastrarSuite(casal);
+        break;
+    case "familia":
+        reserva.CadastrarSuite(familia);
+        break;
+}
+
+reserva.CadastrarHospedes(hospedes);
 int quantidadeHospedes = reserva.ObterQuantidadeHospedes();
 
-/* foreach(Pessoa hospede in hospedes)
-{
-    Console.WriteLine(hospede.Nome + hospede.Sobrenome);
-}
- */
+decimal valorFinal = reserva.CalcularValorDiaria();
+
+Console.WriteLine($"O valor a pagar é: {valorFinal.ToString("C")}");
 
 
-// Pessoa p1 = new(nome, sobrenome);
 
-// p1.Exibir();
+
+
